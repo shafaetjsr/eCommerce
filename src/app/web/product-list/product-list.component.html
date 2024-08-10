@@ -1,41 +1,51 @@
-
-
+<app-spinner *ngIf="isLoading"></app-spinner>
+<div *ngIf="!isLoading">
   <app-slider></app-slider>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="mb-4">Our Products</h4>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="mb-4">Our Products</h4>
+      </div>
+      <div class="col-md-3" *ngFor="let product of products">
+        <div class="product-card">
+          <div class="product-card-img">
+            <label
+              class="stock"
+              [ngClass]="{
+                'bg-success': product.stock_quantity > 1,
+                'bg-danger': product.stock_quantity <= 1
+              }"
+            >
+              {{ product.stock_quantity > 1 ? "In Stock" : "Out Stock" }}
+            </label>
+            <img
+              routerLink="/product-detail"
+              [queryParams]="{ id: product.product_id }"
+              [src]="product.image"
+            />
+          </div>
+          <div class="product-card-body">
+            <h5 class="product-name">
+              <a>{{ product.product_name }}</a>
+            </h5>
+            <div>
+              <span class="selling-price">{{
+                product.sales_price - product.discount_amount
+              }}</span>
+              <span class="original-price">{{ product.sales_price }}</span>
             </div>
-                    <div class="col-md-3"  *ngFor="let product of products">
-                        <div class="product-card">
-                            <div class="product-card-img">
-                              <label class="stock"
-                              [ngClass]="{'bg-success': product.stock_quantity > 1, 'bg-danger': product.stock_quantity <= 1}">
-                         {{ product.stock_quantity > 1 ? 'In Stock' : 'Out Stock' }}
-                       </label>
-                                  <img routerLink="/product-detail" [queryParams]="{ id: product.product_id }" [src]="product.image">
-                            </div>
-                            <div class="product-card-body">
-                              
-                                <h5 class="product-name">
-                                  <a>{{product.product_name}}</a>
-                                </h5>
-                                <div>
-                                    <span class="selling-price">{{product.sales_price - product.discount_amount}}</span>
-                                    <span class="original-price">{{product.sales_price }}</span>
-                                </div>
-                                <div class="mt-2">
-                                  <button class="btn btn-primary" (click)="addToCart(product)">Add to Cart</button>
-                                  
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="mt-2">
+              <button class="btn btn-primary" (click)="addToCart(product)">
+                Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-
-
+  </div>
+</div>
 <!-- 
 <div class = "container">
   <div class = "row my-1">
@@ -87,4 +97,3 @@
       </div>
   </div>
 </div> -->
-

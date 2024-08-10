@@ -1,0 +1,5 @@
+main {
+    padding: 0 1rem; /* Adjust padding if needed */
+    min-height: calc(70vh - 120px); /* Adjust based on header and footer height */
+    position: relative; /* Ensure it aligns well with spinner */
+  }

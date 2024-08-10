@@ -3,6 +3,7 @@ import { Product } from '../../core/classes/product';
 import { CartService } from '../../core/service/cart.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +19,7 @@ export class CartComponent implements OnInit {
   totalSalesPrice: number = 0;
   totalDiscount: number = 0;
 
-  constructor() {}
+  constructor(private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.cartService.getCartItems().subscribe(items => {
@@ -33,6 +34,10 @@ export class CartComponent implements OnInit {
       this.cartService.removeFromCart(productId);
       this.products = this.products.filter(product => product.product_id !== productId);
       this.updateTotals();
+      this.toastr.warning('Product remove successfully', 'warning')
+      // this.toastr.warning('Product remove successfully', 'warning', {
+      //   positionClass: 'toast-bottom-right'
+      // });
     }
   }
 

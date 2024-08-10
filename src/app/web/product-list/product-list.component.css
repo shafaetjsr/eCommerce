@@ -108,6 +108,11 @@
   width: 20%;
 }
 
+.toast-bottom-right {
+  bottom: 20px; 
+  right: 20px;  
+}
+
 /* Product Card End */
 
 
