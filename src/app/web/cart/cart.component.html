@@ -11,23 +11,22 @@
                             <div class="flex-grow-1 align-self-center overflow-hidden">
                                 <div>
                                     <h5 class="text-truncate font-size-18">
-                                        <a href="#" class="text-dark">{{product.product_name}}</a>
+                                        <a href="#" class="text-dark">{{ product.product_name }}</a>
                                     </h5>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="mt-3">
                                                 <p class="text-muted mb-2">Price</p>
-                                                <h5 class="mb-0 mt-2">{{product.sales_price - product.discount_amount}}
-                                                </h5>
+                                                <h3 class="mb-0 mt-2 fw-bold">
+                                                    {{ product.sales_price - product.discount_amount }}
+                                                </h3>
+                                                <del>{{ product.sales_price }}</del>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="mt-3">
                                                 <p class="text-muted mb-2">Quantity</p>
                                                 <div class="d-inline-flex">
-                                                    <!-- <select class="form-select form-select-sm w-xl" (change)="onQuantityChange($event, product)">
-                                      <option *ngFor="let qty of [1, 2, 3, 4, 5, 6, 7, 8]" [value]="qty" [selected]="qty === product.stock_quantity">{{qty}}</option>
-                                    </select> -->
                                                     <input type="number" class="form-control form-control-sm w-xl"
                                                         [value]="product.stock_quantity"
                                                         (input)="onQuantityChange($event, product)" min="1" max="1000">
@@ -37,8 +36,9 @@
                                         <div class="col-md-3 d-flex align-items-center">
                                             <div class="mt-3">
                                                 <p class="text-muted mb-2">Total</p>
-                                                <h5 class="mb-0">{{(product.sales_price - product.discount_amount) *
-                                                    product.stock_quantity}}</h5>
+                                                <h5 class="mb-0">
+                                                    {{ (product.sales_price - product.discount_amount) * product.stock_quantity }}
+                                                </h5>
                                             </div>
                                             <button class="btn btn-link text-danger p-0 ms-3"
                                                 (click)="removeProduct(product.product_id)">
@@ -51,21 +51,15 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- end card -->
 
                 <div class="row my-4">
                     <div class="col-sm-6">
                         <a routerLink="/home" class="btn btn-link text-muted">
-                            <i class="mdi mdi-arrow-left me-1"></i> Continue Shopping </a>
-                    </div> <!-- end col -->
-                    <div class="col-sm-6">
-                        <div class="text-sm-end mt-2 mt-sm-0">
-
-                        </div>
+                            <i class="mdi mdi-arrow-left me-1"></i> Continue Shopping 
+                        </a>
                     </div> <!-- end col -->
                 </div> <!-- end row-->
-
             </div>
 
             <div class="col-xl-4">
@@ -75,31 +69,22 @@
                             <h5 class="font-size-16 mb-0">Order Summary <span class="float-end">#MN0124</span></h5>
                         </div>
                         <div class="card-body p-4 pt-2">
-
                             <div class="table-responsive">
                                 <table class="table mb-0">
                                     <tbody>
                                         <tr>
                                             <td>Sub Total :</td>
-                                            <td class="text-end">$ 780</td>
+                                            <td class="text-end">$ {{ totalSalesPrice }}</td>
                                         </tr>
                                         <tr>
                                             <td>Discount : </td>
-                                            <td class="text-end">- $ 78</td>
+                                            <td class="text-end">$ {{ totalDiscount }}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td>Shipping Charge :</td>
-                                            <td class="text-end">$ 25</td>
-                                        </tr> -->
-                                        <!-- <tr>
-                                            <td>Estimated Tax : </td>
-                                            <td class="text-end">$ 18.20</td>
-                                        </tr> -->
                                         <tr class="bg-light">
                                             <th>Total :</th>
                                             <td class="text-end">
                                                 <span class="fw-bold">
-                                                    $ 745.2
+                                                    $ {{ totalSalesPrice - totalDiscount }}
                                                 </span>
                                             </td>
                                         </tr>
@@ -108,12 +93,12 @@
                             </div>
                             <!-- end table-responsive -->
                             <div class="row my-4">
-                                <div class="col-sm-6">
-                                </div> <!-- end col -->
+                                <div class="col-sm-6"></div> <!-- end col -->
                                 <div class="col-sm-6">
                                     <div class="text-sm-end mt-2 mt-sm-0">
                                         <a href="ecommerce-checkout.html" class="btn btn-success">
-                                            <i class="mdi mdi-cart-outline me-1"></i> Checkout </a>
+                                            <i class="mdi mdi-cart-outline me-1"></i> Checkout 
+                                        </a>
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row-->
@@ -123,7 +108,6 @@
             </div>
         </div>
         <!-- end row -->
-
     </div>
     <div *ngIf="products.length === 0" class="no-records-container">
         <span>No Record Found.</span>

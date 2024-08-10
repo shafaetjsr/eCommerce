@@ -13,25 +13,30 @@ import { RouterLink } from '@angular/router';
 })
 export class CartComponent implements OnInit {
 
-  products:Product []=[];
-  cartServive = inject(CartService)
+  products: Product[] = [];
+  cartService = inject(CartService); 
+  totalSalesPrice: number = 0;
+  totalDiscount: number = 0;
 
-  constructor(){}
+  constructor() {}
+
   ngOnInit(): void {
-    this.cartServive.getCartItems().subscribe(item=>{
-      this.products = item;
-      //alert(JSON.stringify(this.products))
-    })
+    this.cartService.getCartItems().subscribe(items => {
+      this.products = items;
+      this.updateTotals();
+    });
   }
 
   removeProduct(productId: number): void {
     const confirmed = confirm("Are you sure you want to remove this product from the cart?");
     if (confirmed) {
-      this.cartServive.removeFromCart(productId);
+      this.cartService.removeFromCart(productId);
+      this.products = this.products.filter(product => product.product_id !== productId);
+      this.updateTotals();
     }
   }
 
-  onQuantityChange(event: Event, product: any): void {
+  onQuantityChange(event: Event, product: Product): void {
     const inputElement = event.target as HTMLInputElement;
     let selectedQuantity = +inputElement.value; 
     if (selectedQuantity < 1) {
@@ -42,8 +47,20 @@ export class CartComponent implements OnInit {
     const index = this.products.findIndex(p => p.product_id === product.product_id);
     if (index !== -1) {
       this.products[index].stock_quantity = selectedQuantity;
+      this.updateTotals();
     }
   }
   
+  calculateTotalSalesPrice(): number {
+    return this.products.reduce((sum, product) => sum + (product.sales_price * product.stock_quantity), 0);
+  }
 
+  calculateTotalDiscountPrice(): number {
+    return this.products.reduce((sum, product) => sum + (product.discount_amount * product.stock_quantity), 0);
+  }
+
+  updateTotals(): void {
+    this.totalSalesPrice = this.calculateTotalSalesPrice();
+    this.totalDiscount = this.calculateTotalDiscountPrice();
+  }
 }

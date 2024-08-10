@@ -42,7 +42,7 @@ export class ProductListComponent implements OnInit {
 
   addToCart(product: any) {
     this.cartSrv.addToCart(product);
-    //this.toastr.success('Product Cart to successful', 'Success')
+    this.toastr.success('Product Cart to successful', 'Success')
   }
 
 }

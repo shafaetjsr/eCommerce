@@ -52,3 +52,16 @@ a {
 .bx {
     font-size: 35px;
 }
+
+
+.no-records-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px; 
+    font-size: 1.5rem; 
+    color: #6c757d; 
+    background-color: #f8f9fa; 
+    border-radius: 8px; 
+    border: 1px solid #dee2e6; 
+}
