@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+
+declare const showAlert: any; 
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -8,5 +11,7 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  
 
 }

@@ -50,8 +50,7 @@
         
         <div *ngIf="!isLoggedIn">
           <li class="nav-item">
-             <a class="btn btn-info" (click)="login()"> <i class="fa fa-user"></i>Log In</a>
-            
+              <a class="btn btn-info" routerLink="/login"  (click)="login()"> <i class="fa fa-user"></i>Log In</a>
            </li>
 
        </div>
