@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductListComponent } from '../product-list/product-list.component';
 import { CartService } from '../../core/service/cart.service';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { UserEntity } from '../../core/classes/user';
 
 
 
@@ -16,46 +17,51 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-// [x: string]: any;
-cartItemCount: number = 0;
-  router: any;
+  cartItemCount: number = 0;
+  isLoggedIn: boolean = false;
+  username: string = '';
+  userObj: UserEntity = new UserEntity();
 
-constructor(private cartSrv:CartService){}
+  constructor(private cartSrv: CartService, private router: Router) {}
 
   ngOnInit(): void {
     this.cartSrv.getCartItems().subscribe(items => {
       this.cartItemCount = items.reduce((total, item) => total + item.stock_quantity, 0);
     });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.loadUserData();
+      }
+    });
+
+    this.loadUserData(); // Initial load
   }
 
-
-  isLoggedIn: boolean = false;
-  username: string = '';
-
-  login() {
- 
-    // Simulated login logic
-    this.isLoggedIn = true;
-    this.username = 'John Doe'; // Replace with actual username retrieved from authentication
-    
-    // Store login status in local storage
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('username', this.username);
+  loadUserData(): void {
+    const status = localStorage.getItem('isLoggedIn');
+    if (status === 'true') {
+      this.isLoggedIn = true;
+      const user = localStorage.getItem('userinfo');
+      if (user) {
+        this.userObj = JSON.parse(user);
+        this.username = this.userObj.userName;
+      } else {
+        this.userObj = new UserEntity();
+      }
+    } else {
+      this.isLoggedIn = false;
+      this.username = '';
+      this.userObj = new UserEntity();
+    }
   }
 
-  logout() {
- 
-    // Simulated logout logic
+  logout(): void {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userinfo');
     this.isLoggedIn = false;
     this.username = '';
-    
-    // Clear local storage
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('username');
-    
- 
-  
+    this.userObj = new UserEntity();
+    this.router.navigateByUrl('/login');
   }
-
-
 }
