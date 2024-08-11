@@ -46,3 +46,47 @@ a {
     left: 87% ;
     top: 68%;
   } 
+
+
+/* 
+  ----------auto complete dropdown--------- */
+
+  .dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+    margin-top: 0.125rem;
+    font-size: 1rem;
+    color: #212529;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+  }
+  
+  .position-relative {
+    position: relative;
+  }
+  
+  .position-absolute {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+  
+  .w-100 {
+    width: 100%;
+  }
+  
+  .dropdown-item {
+    padding: 0.375rem 0.75rem;
+    margin: 0;
+    font-size: 1rem;
+    color: #212529;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+  

@@ -1,4 +1,6 @@
 
+
+
 <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
   <div class="container-fluid">
     <a class="navbar-brand"  routerLink="/"><i class="fa-solid fa-shop me-2"></i> <strong>GEAR SHOP</strong></a>
@@ -6,15 +8,27 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-   
+  
     
     <div class=" collapse navbar-collapse" id="navbarNavDropdown">
-      <form class="d-flex form-inline my-2 my-lg-0 mx-auto">
+      <!-- <form class="d-flex form-inline my-2 my-lg-0 mx-auto">
         <input class="form-control" type="search" placeholder="Search for products..." aria-label="Search">
         <button class="btn bg-white" type="submit">
           <i class="fa fa-search"></i>
          </button>
-      </form> 
+      </form>  -->
+       <div class="form-group position-relative">
+        <form class="d-flex form-inline my-2 my-lg-0 mx-auto">
+         <input class="form-control" id="productInput" type="text" [formControl]="productControl" (input)="onInput($event)" placeholder="Search for products..." aria-label="Search">
+      
+         <div *ngIf="filteredProducts.length > 0 && showDropdown" class="dropdown-menu show position-absolute w-90">
+             <button *ngFor="let product of filteredProducts" class="dropdown-item" (click)="selectProduct(product)">
+               {{ product }}
+             </button>
+           </div>
+       </form> 
+       </div>
+
 
       <ul class="navbar-nav ms-auto ">
         <li class="nav-item">
@@ -60,10 +74,8 @@
             <a class="btn btn-defualt" href="#">{{ username }}</a>
           </li> 
           <ul class="dropdown-menu loginbtn" id="loginbtn" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#"><i class="fa fa-user-plus"></i> Register</a></li>
            <li><a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a></li>
           <li><a class="dropdown-item" href="#"><i class="fa fa-list"></i> My Orders</a></li>
-          <li><a class="dropdown-item" href="#"><i class="fa fa-heart"></i> My Wishlist</a></li>
           <li><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
           <div *ngIf="isLoggedIn">
             <li><a routerLink="/" (click)="logout()" class="dropdown-item"><i class="fa fa-sign-out"></i>Logout</a></li>

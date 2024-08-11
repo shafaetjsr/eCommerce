@@ -6,13 +6,16 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { UserEntity } from '../../core/classes/user';
+import { FormControl,FormsModule ,ReactiveFormsModule} from '@angular/forms';
+
+
 
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ProductListComponent,RouterLink,CommonModule,MatMenuModule,MatButtonModule],
+  imports: [ProductListComponent,RouterLink,CommonModule,MatMenuModule,MatButtonModule,FormsModule,ReactiveFormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -22,12 +25,20 @@ export class HeaderComponent implements OnInit {
   username: string = '';
   userObj: UserEntity = new UserEntity();
 
+  productControl = new FormControl();
+  products: string[] = ['Laptop', 'Phone', 'Tablet', 'Monitor', 'Keyboard', 'shuvo','one ', 'three', 'two', 'hasan', 'rubel', 'Mouse'];
+  filteredProducts: string[] = [];
+  showDropdown = false;
+
   constructor(private cartSrv: CartService, private router: Router) {}
 
-  ngOnInit(): void {
+  ngOnInit():void {
+    this.filteredProducts = [];
     this.cartSrv.getCartItems().subscribe(items => {
       this.cartItemCount = items.reduce((total, item) => total + item.stock_quantity, 0);
     });
+
+    
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -36,6 +47,26 @@ export class HeaderComponent implements OnInit {
     });
 
     this.loadUserData(); // Initial load
+  }
+
+  onInput(event: Event) {
+    const input = (event.target as HTMLInputElement).value.toLowerCase();
+    if (input) {
+      this.filteredProducts = this.products.filter(product =>
+        product.toLowerCase().includes(input)
+      );
+      this.showDropdown = this.filteredProducts.length > 0;
+    } else {
+      this.filteredProducts = [];
+      this.showDropdown = false;
+    }
+  }
+
+  selectProduct(product: string) {
+    this.productControl.setValue(product);
+    this.filteredProducts = [];
+    this.showDropdown = false;
+    
   }
 
   loadUserData(): void {
