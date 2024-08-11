@@ -70,11 +70,10 @@ a {
     position: absolute;
     top: 100%;
     left: 0;
-  }
-  
-  .w-100 {
     width: 100%;
   }
+  
+ 
   
   .dropdown-item {
     padding: 0.375rem 0.75rem;

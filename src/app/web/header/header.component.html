@@ -21,7 +21,7 @@
         <form class="d-flex form-inline my-2 my-lg-0 mx-auto">
          <input class="form-control" id="productInput" type="text" [formControl]="productControl" (input)="onInput($event)" placeholder="Search for products..." aria-label="Search">
       
-         <div *ngIf="filteredProducts.length > 0 && showDropdown" class="dropdown-menu show position-absolute w-90">
+         <div *ngIf="filteredProducts.length > 0 && showDropdown" class="dropdown-menu show position-absolute">
              <button *ngFor="let product of filteredProducts" class="dropdown-item" (click)="selectProduct(product)">
                {{ product }}
              </button>
