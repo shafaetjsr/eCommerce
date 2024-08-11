@@ -24,4 +24,7 @@ export class ProductService {
     return this.api.get(environment.api_url+Constant.API_END_POINT.GET_PRODUCT_BY_ID+id);
   }
 
+  searchProduct(searchKey:any):Observable<ApiResponseModel>{
+    return this.api.get(environment.api_url+Constant.API_END_POINT.GET_PRODUCT_SEARCH+searchKey)
+  }
 }

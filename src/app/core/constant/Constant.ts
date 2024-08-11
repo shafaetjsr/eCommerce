@@ -4,6 +4,7 @@ export const Constant={
         PRODUCT_SAVE:'product/productSave',
         GET_PRODUCT:'product/getproducts',
         GET_PRODUCT_BY_ID:'product/getProduct?id=',
+        GET_PRODUCT_SEARCH:'Product/searchProduct?searchKey=',
         //#endregion
 
         //#region  login

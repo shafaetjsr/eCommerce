@@ -7,6 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { UserEntity } from '../../core/classes/user';
 import { FormControl,FormsModule ,ReactiveFormsModule} from '@angular/forms';
+import { ProductService } from '../../core/service/product.service';
+import { ApiResponseModel } from '../../core/classes/api-response.model';
 
 
 
@@ -26,11 +28,13 @@ export class HeaderComponent implements OnInit {
   userObj: UserEntity = new UserEntity();
 
   productControl = new FormControl();
-  products: string[] = ['Laptop', 'Phone', 'Tablet', 'Monitor', 'Keyboard', 'shuvo','one ', 'three', 'two', 'hasan', 'rubel', 'Mouse'];
-  filteredProducts: string[] = [];
+ // products: string[] = ['Laptop', 'Phone', 'Tablet', 'Monitor', 'Keyboard', 'shuvo','one ', 'three', 'two', 'hasan', 'rubel', 'Mouse'];
+ products: string[] =[];
+ filteredProducts: string[] = [];
   showDropdown = false;
 
-  constructor(private cartSrv: CartService, private router: Router) {}
+  constructor(private cartSrv: CartService, private router: Router,
+    private productSrv:ProductService) {}
 
   ngOnInit():void {
     this.filteredProducts = [];
@@ -52,10 +56,19 @@ export class HeaderComponent implements OnInit {
   onInput(event: Event) {
     const input = (event.target as HTMLInputElement).value.toLowerCase();
     if (input) {
-      this.filteredProducts = this.products.filter(product =>
-        product.toLowerCase().includes(input)
-      );
-      this.showDropdown = this.filteredProducts.length > 0;
+      this.productSrv.searchProduct(input).subscribe((res:ApiResponseModel)=>{
+        if(res.vCode=="1"){
+          this.products = res.data;
+          this.filteredProducts = this.products.filter(product =>
+            product.toLowerCase().includes(input)
+          );
+          this.showDropdown = this.filteredProducts.length > 0;
+        }else{
+          this.filteredProducts = [];
+          this.showDropdown = false;
+        }
+      })
+      
     } else {
       this.filteredProducts = [];
       this.showDropdown = false;
