@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  previousUrl: string | undefined;
+  previousUrl = "";
   loginDto:LoginDto = new LoginDto();
   userObj:UserEntity = new UserEntity();
   respon:any;
@@ -46,8 +46,8 @@ export class LoginComponent implements OnInit {
         this.userObj = this.respon.user;
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userinfo', JSON.stringify(this.userObj));
-        console.log('User logged in:', JSON.stringify(this.userObj));
-        this.route.navigateByUrl('cart');
+        localStorage.setItem('token', JSON.stringify(this.respon.token));
+        this.route.navigateByUrl(this.previousUrl);
       } else {
         this.toastr.error(res.vMsg, 'Error Message');
       }
