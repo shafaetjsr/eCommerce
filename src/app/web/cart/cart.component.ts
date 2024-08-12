@@ -4,6 +4,7 @@ import { CartService } from '../../core/service/cart.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -18,8 +19,9 @@ export class CartComponent implements OnInit {
   cartService = inject(CartService); 
   totalSalesPrice: number = 0;
   totalDiscount: number = 0;
+  
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService,private route:Router) {}
 
   ngOnInit(): void {
     this.cartService.getCartItems().subscribe(items => {
@@ -68,4 +70,15 @@ export class CartComponent implements OnInit {
     this.totalSalesPrice = this.calculateTotalSalesPrice();
     this.totalDiscount = this.calculateTotalDiscountPrice();
   }
+
+  doChecklogin(){
+    var token = localStorage.getItem('token')
+    if(token){
+      this.route.navigateByUrl('checkout');
+    }else
+    {
+      this.route.navigateByUrl('login');
+    }
+  }
+
 }

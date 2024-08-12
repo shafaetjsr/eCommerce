@@ -6,8 +6,8 @@ import { filter } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class NavigationService {
-  private previousUrl: string | undefined;
-  private currentUrl: string | undefined;
+  private previousUrl = "";
+  private currentUrl = "";
 
   constructor(private router: Router) {
     this.currentUrl = this.router.url;
@@ -19,7 +19,7 @@ export class NavigationService {
     });
   }
 
-  public getPreviousUrl(): string | undefined {
+  public getPreviousUrl(): string  {
     return this.previousUrl;
   }
 }

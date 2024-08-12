@@ -103,6 +103,7 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userinfo');
+    localStorage.removeItem('token');
     this.isLoggedIn = false;
     this.username = '';
     this.userObj = new UserEntity();
