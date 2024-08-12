@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from '../../core/service/product.service';
@@ -10,6 +10,7 @@ import { CartService } from '../../core/service/cart.service';
 import { RouterLink } from '@angular/router';
 import { SliderComponent } from '../slider/slider.component';
 import { SpinnerComponent } from "../../common/spinner/spinner.component";
+import { ProductSelectionServiceService } from '../../core/service/product-selection-service.service';
 
 
 @Component({
@@ -20,33 +21,52 @@ import { SpinnerComponent } from "../../common/spinner/spinner.component";
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
-
+ 
   products: Product[] = [];
   isLoading: boolean = true;
 
-  constructor(private toastr: ToastrService,private productSrv:ProductService,private cartSrv:CartService){}
+  constructor(private toastr: ToastrService,private productSrv:ProductService,private cartSrv:CartService,
+    private productSelectionService: ProductSelectionServiceService
+  ){}
   ngOnInit(): void {
     this. getProducts();
+    this.productSelectionService.selectedProduct$.subscribe(productName => {
+      if (productName) {
+        this.getProducts(productName);
+      }
+    });
+
   }
 
-  getProducts(){
-    this.productSrv.getProducts().subscribe((res:ApiResponseModel)=>{
-      if(res.vCode=="1")
-      {
-        this.products = res.data;
+ getProducts(productName?: string) {
+    if (productName) {
+      this.productSrv.searchFilter(productName).subscribe((res: ApiResponseModel) => {
+        if (res.vCode === "1") {
+          this.products = res.data;
+          this.isLoading = false;
+        } else {
+          this.toastr.error(res.vMsg, 'Error Message');
+          this.isLoading = false;
+        }
+      }, error => {
+        this.toastr.error(error, 'Error Message');
         this.isLoading = false;
-        // setTimeout(() => { for wait 5 sec
-        //   this.products = res.data;
-        //   this.isLoading = false;
-        // }, 5000); 
-      }else{
-        this.toastr.error(res.vMsg,'Error Message')
+      });
+    } else {
+      // Handle case when no product name is provided, or load all products
+      this.productSrv.getProducts().subscribe((res: ApiResponseModel) => {
+        if (res.vCode === "1") {
+          this.products = res.data;
+          this.isLoading = false;
+        } else {
+          this.toastr.error(res.vMsg, 'Error Message');
+          this.isLoading = false;
+        }
+      }, error => {
+        this.toastr.error(error, 'Error Message');
         this.isLoading = false;
-      }
-    },error=>{
-      this.toastr.error(error,'Error Message')
-      this.isLoading = false;
-    })
+      });
+    }
   }
 
   addToCart(product: any) {

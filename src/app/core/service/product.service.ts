@@ -27,4 +27,8 @@ export class ProductService {
   searchProduct(searchKey:any):Observable<ApiResponseModel>{
     return this.api.get(environment.api_url+Constant.API_END_POINT.GET_PRODUCT_SEARCH+searchKey)
   }
+
+  searchFilter(filterValue:any):Observable<ApiResponseModel>{
+    return this.api.get(environment.api_url+Constant.API_END_POINT.GET__SEARCH_FILTER+filterValue)
+  }
 }

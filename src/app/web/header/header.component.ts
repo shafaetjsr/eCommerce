@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ProductListComponent } from '../product-list/product-list.component';
 import { CartService } from '../../core/service/cart.service';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
@@ -9,6 +9,7 @@ import { UserEntity } from '../../core/classes/user';
 import { FormControl,FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { ProductService } from '../../core/service/product.service';
 import { ApiResponseModel } from '../../core/classes/api-response.model';
+import { ProductSelectionServiceService } from '../../core/service/product-selection-service.service';
 
 
 
@@ -22,6 +23,7 @@ import { ApiResponseModel } from '../../core/classes/api-response.model';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
+  @Output() productSelected = new EventEmitter<string>();
   cartItemCount: number = 0;
   isLoggedIn: boolean = false;
   username: string = '';
@@ -34,7 +36,7 @@ export class HeaderComponent implements OnInit {
   showDropdown = false;
 
   constructor(private cartSrv: CartService, private router: Router,
-    private productSrv:ProductService) {}
+    private productSrv:ProductService,private productSelectionService: ProductSelectionServiceService) {}
 
   ngOnInit():void {
     this.filteredProducts = [];
@@ -80,6 +82,7 @@ export class HeaderComponent implements OnInit {
     this.filteredProducts = [];
     this.showDropdown = false;
     
+    this.productSelectionService.selectProduct(product);
   }
 
   loadUserData(): void {
