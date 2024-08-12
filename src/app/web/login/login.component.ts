@@ -47,7 +47,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userinfo', JSON.stringify(this.userObj));
         localStorage.setItem('token', JSON.stringify(this.respon.token));
-        this.route.navigateByUrl(this.previousUrl);
+        this.route.navigateByUrl(this.previousUrl, { skipLocationChange: true }).then(() => {
+          this.route.navigate([this.previousUrl]);
+        });
       } else {
         this.toastr.error(res.vMsg, 'Error Message');
       }
