@@ -1,1 +1,159 @@
-<p>checkout works!</p>
+
+<div class="container-fluid">
+    <div class="row mt-3">
+        
+        <div *ngIf="showForm1" class="col-md-8">
+            <form>
+            <div class="card">
+                <h3 class="card-header">Delivery Address</h3>
+                <div class="card-body">
+                    <Button (click)="showForm2()" class="btn btn-success btn-sm float-end ">Change</Button>
+         
+                    <p>Floor 1, Uttara, Sector 13, Road No - 18, House No - 21, Dhaka
+                        Uttara, Dhaka</p> 
+                </div>
+            </div>
+        </form>
+        </div>
+
+        
+        <div *ngIf="!showForm1" class="col-md-8">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#newAddressModal" class="btn btn-outline-dark btn-sm">New Address</button>   
+               
+            <div> 
+                <form>
+                    <div class="card">   
+                          <!-- Button to trigger the modal --> 
+                         <h3 class="card-header">Select a Delivery Address </h3>
+                        <div class="card-body">
+                            
+                            <button type="button" (click)="showFsorm1()" class="btn btn-danger btn-sm float-end">Delete</button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#newAddressModal" class="btn btn-success btn-sm float-end">Edit</button>
+                           
+                            <p>Floor 1, Uttara, Sector 13, Road No - 18, House No - 21, Dhaka Uttara, Dhaka</p> 
+    
+                        </div>
+                    </div>
+                </form>
+            </div>
+           
+        </div>
+
+
+     <div class="col-md-4">
+        <div class="mt-5 mt-lg-0">
+            <div class="card border">
+                <div class="card-header">
+                    <h5 class="font-size-16 mb-0">Order Summary <span class="float-end">#MN0124</span></h5>
+                </div>
+                <div class="card-body p-4 pt-2">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td>Sub Total :</td>
+                                    <td class="text-end"></td>
+                                </tr>
+                                <tr>
+                                    <td>Discount : </td>
+                                    <td class="text-end"></td>
+                                </tr>
+                                <tr>
+                                    <td>Delivery Charges : </td>
+                                    <td class="text-end"></td>
+                                </tr>
+                                <tr class="bg-light">
+                                    <th>Total :</th>
+                                    <td class="text-end">
+                                        <span class="fw-bold">
+                                            
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end table-responsive -->
+                    <div class="row my-4">
+                        <div class="col-sm-6"></div> <!-- end col -->
+                        <div class="col-sm-6">
+                            <div class="text-sm-end mt-2 mt-sm-0">
+                                <a  class="btn btn-success">
+                                    <i class="mdi mdi-cart-outline me-1"></i>Proceed to Pay 
+                                </a>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+<!-- Modal HTML -->
+<div class="modal fade" id="newAddressModal" tabindex="-1" aria-labelledby="newAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newAddressModalLabel">New Address</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="newAddressForm">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="recipientName" class="form-label">Recipient Name</label>
+                    <input type="text" class="form-control" id="recipientName" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="phoneNumber" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="addressLine1" class="form-label">Address Line 1</label>
+                <input type="text" class="form-control" id="addressLine1" required>
+            </div>
+            <div class="mb-3">
+                <label for="addressLine2" class="form-label">Address Line 2</label>
+                <input type="text" class="form-control" id="addressLine2">
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="state" class="form-label">State</label>
+                    <input type="text" class="form-control" id="state" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="zipCode" class="form-label">Zip Code</label>
+                    <input type="text" class="form-control" id="zipCode" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" class="form-control" id="country" required>
+                </div>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="setAsDefault">
+                <label class="form-check-label" for="setAsDefault">
+                    Set as default shipping address
+                </label>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="saveAddressButton">Save Address</button>
+        </div>
+      </div>
+    </div>
+  </div>
